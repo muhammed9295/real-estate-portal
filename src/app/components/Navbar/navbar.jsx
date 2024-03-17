@@ -58,10 +58,10 @@ function Navbar() {
             <div className="w-full bg-white z-40 py-5 px-8 drop-shadow-lg mb-5">
               <Image src="/logo-light.png" width={120} height={50} />
             </div>
-            <Link href="/">Home</Link>
-            <Link href="/">About</Link>
-            <Link href="/">Blog</Link>
-            <Link href="/">Contact</Link>
+            <Link className="hover:text-accent" href="/">Home</Link>
+            <Link className="hover:text-accent" href="/">About</Link>
+            <Link className="hover:text-accent" href="/">Blog</Link>
+            <Link className="hover:text-accent" href="/">Contact</Link>
 
             <div className="w-full px-9 mt-5">
               <Seperator color="border-[#54e8ed]" margin="mb-9" />
@@ -74,7 +74,7 @@ function Navbar() {
               <Seperator color="border-[#54e8ed]" margin="mb-9" />
               <h2>Contact Us</h2>
               <div className="flex gap-4 py-3 items-center">
-                <FaPhoneVolume className="text-3xl text-secondary" />
+                <FaPhoneVolume className="text-3xl text-accent" />
                 <span className="font-normal text-base">
                   <p>Call Us</p>
                   <p>(201) 555-0124</p>
@@ -84,7 +84,7 @@ function Navbar() {
 
             <div className="w-full px-5 text-base font-normal">
               <Seperator color="border-[#54e8ed]" margin="mb-3" />
-              <p className="text-secondary">Email:</p>
+              <p className="text-accent">Email:</p>
               <p>info@mdshk.com</p>
             </div>
           </div>
