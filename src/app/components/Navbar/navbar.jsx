@@ -2,8 +2,10 @@
 import { useState } from "react";
 import Image from "next/image";
 import { MdOutlineMenu, MdOutlineClose } from "react-icons/md";
+import { FaHouse, FaPhoneVolume } from "react-icons/fa6";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
+import Seperator from "../ui/seperator";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -46,25 +48,47 @@ function Navbar() {
 
       {/* Menu items */}
       {open && (
-        <AnimatePresence>
-          <motion.div
-            variants={listVariants}
-            initial="closed"
-            animate="opened"
-            exit="closed"
-            className="absolute top-0 left-0 w-4/5 h-screen bg-primary text-text z-40"
-          >
-            <div className="flex flex-col items-center justify-start gap-8 text-xl text-white font-semibold">
-              <div className="w-full bg-white z-40 py-5 px-8 drop-shadow-lg">
-                <Image src="/logo-light.png" width={120} height={50} />
-              </div>
-              <Link href="/">Home</Link>
-              <Link href="/">About</Link>
-              <Link href="/">Blog</Link>
-              <Link href="/">Contact</Link>
+        <motion.div
+          variants={listVariants}
+          initial="closed"
+          animate="opened"
+          className="absolute top-0 left-0 w-4/5 h-screen bg-primary text-text z-40"
+        >
+          <div className="flex flex-col items-center justify-start gap-8 text-xl text-black font-semibold">
+            <div className="w-full bg-white z-40 py-5 px-8 drop-shadow-lg mb-5">
+              <Image src="/logo-light.png" width={120} height={50} />
             </div>
-          </motion.div>
-        </AnimatePresence>
+            <Link href="/">Home</Link>
+            <Link href="/">About</Link>
+            <Link href="/">Blog</Link>
+            <Link href="/">Contact</Link>
+
+            <div className="w-full px-9 mt-5">
+              <Seperator color="border-[#54e8ed]" margin="mb-9" />
+              <button className="bg-accent px-10 py-3 text-base text-white font-bold rounded-lg w-full flex gap-3 justify-center items-center hover:bg-white hover:text-accent">
+                <FaHouse className="text-base text-white" /> Sell Property
+              </button>
+            </div>
+
+            <div className="w-full px-5 mt-5">
+              <Seperator color="border-[#54e8ed]" margin="mb-9" />
+              <h2>Contact Us</h2>
+              <div className="flex gap-4 py-3 items-center">
+                <FaPhoneVolume className="text-3xl text-secondary" />
+                <span className="font-normal text-base">
+                  <p>Call Us</p>
+                  <p>(201) 555-0124</p>
+                </span>
+              </div>
+            </div>
+
+            <div className="w-full px-5 text-base font-normal">
+              <Seperator color="border-[#54e8ed]" margin="mb-3" />
+              <p className="text-secondary">Email:</p>
+              <p>info@mdshk.com</p>
+            </div>
+          </div>
+        </motion.div>
       )}
       {/* Menu items */}
       {/* Responsive Menu */}
