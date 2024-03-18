@@ -5,7 +5,6 @@ import { MdOutlineMenu, MdOutlineClose } from "react-icons/md";
 import { FaHouse, FaPhoneVolume } from "react-icons/fa6";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import Seperator from "../ui/seperator";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -28,7 +27,7 @@ function Navbar() {
   };
 
   return (
-    <div className="sticky top-0 bg-white py-5 px-8 lg:px-20 flex justify-between items-center">
+    <div className="sticky top-0 bg-white py-5 px-8 lg:px-20 flex justify-between items-center z-40 drop-shadow-lg">
       <Image src="/logo-light.png" width={120} height={50} />
 
       {/* Responsive Menu */}
@@ -58,20 +57,26 @@ function Navbar() {
             <div className="w-full bg-white z-40 py-5 px-8 drop-shadow-lg mb-5">
               <Image src="/logo-light.png" width={120} height={50} />
             </div>
-            <Link className="hover:text-accent" href="/">Home</Link>
-            <Link className="hover:text-accent" href="/">About</Link>
-            <Link className="hover:text-accent" href="/">Blog</Link>
-            <Link className="hover:text-accent" href="/">Contact</Link>
+            <Link className="hover:text-accent" href="/">
+              Home
+            </Link>
+            <Link className="hover:text-accent" href="/">
+              About
+            </Link>
+            <Link className="hover:text-accent" href="/">
+              Blog
+            </Link>
+            <Link className="hover:text-accent" href="/">
+              Contact
+            </Link>
 
             <div className="w-full px-9 mt-5">
-              <Seperator color="border-[#54e8ed]" margin="mb-9" />
               <button className="bg-accent px-10 py-3 text-base text-white font-bold rounded-lg w-full flex gap-3 justify-center items-center hover:bg-white hover:text-accent">
                 <FaHouse className="text-base text-white" /> Sell Property
               </button>
             </div>
 
             <div className="w-full px-5 mt-5">
-              <Seperator color="border-[#54e8ed]" margin="mb-9" />
               <h2>Contact Us</h2>
               <div className="flex gap-4 py-3 items-center">
                 <FaPhoneVolume className="text-3xl text-accent" />
@@ -83,7 +88,6 @@ function Navbar() {
             </div>
 
             <div className="w-full px-5 text-base font-normal">
-              <Seperator color="border-[#54e8ed]" margin="mb-3" />
               <p className="text-accent">Email:</p>
               <p>info@mdshk.com</p>
             </div>
