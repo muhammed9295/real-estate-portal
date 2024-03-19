@@ -90,19 +90,19 @@ const properties = [
 
 function Featured() {
   return (
-    <div className="py-20 px-20 flex flex-col gap-4">
+    <div className="p-10 md:p-20 flex flex-col gap-4">
       {/* Title - text */}
       <div className="flex flex-col items-center justify-center gap-3">
-        <h2 className="text-5xl font-black">Featured Properties</h2>
-        <p className="text-base">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-black">Featured Properties</h2>
+        <p className="text-sm text-center md:text-base">
           Explore all the different types of properties so you can choose the
           best option for you.
         </p>
       </div>
       {/* Title - text */}
-      <div className="flex flex-col items-center mt-5">
+      <div className="flex flex-col items-center mt-5 ">
         {/* Filter buttons */}
-        <div className="w-2/5 flex justify-between">
+        <div className="lg:w-2/5 flex flex-wrap justify-center gap-2 md:justify-between md:w-full md:gap-0">
           <Button className="px-5 drop-shadow-xl hover:bg-secondary hover:text-text">
             All
           </Button>
@@ -125,7 +125,7 @@ function Featured() {
         {/* Filter buttons */}
 
         {/* Cards sections */}
-        <div className="mt-14 grid grid-cols-4 gap-7">
+        <div className="mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
           {properties.map((property) => (
             <Card key={property.id}>
               <CardHeader>
@@ -138,19 +138,19 @@ function Featured() {
                   />
                   <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
                 </div>
-                <CardTitle>{property.title}</CardTitle>
-                <CardDescription className="flex items-center gap-1">
+                <CardTitle className="md:text-lg lg:text-xl">{property.title}</CardTitle>
+                <CardDescription className="flex items-center gap-1 md:text-[12px] lg:text-sm">
                   <MdLocationPin /> {property.address}
                 </CardDescription>
               </CardHeader>
               <CardContent className="flex justify-between">
-                <p className="flex gap-2 items-center">
+                <p className="flex gap-2 items-center md:text-[12px] lg:text-sm">
                   <MdKingBed /> Beds {property.bed}
                 </p>
-                <p className="flex gap-2 items-center">
+                <p className="flex gap-2 items-center md:text-[12px] lg:text-sm">
                   <FaShower /> Bath {property.bath}
                 </p>
-                <p className="flex gap-2 items-center">
+                <p className="flex gap-2 items-center md:text-[12px] lg:text-sm">
                   <FaExpandArrowsAlt /> SqFt {property.area}
                 </p>
               </CardContent>
