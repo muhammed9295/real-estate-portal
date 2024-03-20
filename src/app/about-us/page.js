@@ -1,12 +1,14 @@
 import Image from "next/image";
 import { VscKey } from "react-icons/vsc";
 import { PiWarehouse, PiHandshake } from "react-icons/pi";
+import Brands from "../components/Brands";
+import ContactForm1 from "../components/ContactForm1";
 
 function About() {
   return (
-    <div className="p-10 lg:px-72 lg:py-20">
+    <div className="p-10 lg:p-20">
       {/* About Us - Intro */}
-      <div className="flex flex-col lg:flex-row justify-around w-full">
+      <div className="flex flex-col lg:flex-row justify-around w-full lg:px-72">
         <div className="flex flex-col gap-4 lg:pr-24">
           <h2 className="text-3xl lg:text-5xl font-extrabold">Better lives with better homes</h2>
 
@@ -26,7 +28,8 @@ function About() {
       {/* About Us - Intro */}
 
       {/* Our Services */}
-      <div className="my-20 border bg-secondary py-8 md:py-20 px-10 flex flex-col items-center gap-2 lg:gap-5 rounded-2xl ">
+      <div className="lg:px-64">
+      <div className="my-20 border bg-secondary py-8 md:py-20 px-10 flex flex-col items-center gap-2 lg:gap-5 rounded-2xl">
         <h2 className="text-3xl lg:text-5xl font-extrabold">Our Services</h2>
         <p className="text-center">We provide residential, commercial and rural property solutions for buyers & sellers.</p>
 
@@ -48,7 +51,18 @@ function About() {
             </div>
         </div>
       </div>
+      </div>
       {/* Our Services */}
+
+      {/* Trusted brands */}
+      <Brands />
+      {/* Trusted brands */}
+
+      {/* Contact Form */}
+      <div className="flex justify-center lg:py-20">
+      <ContactForm1 />
+      </div>
+      {/* Contact Form */}
     </div>
   );
 }
