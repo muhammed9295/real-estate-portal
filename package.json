@@ -1,0 +1,14 @@
+{
+  "name": "real-estate-backend",
+  "version": "1.0.0",
+  "description": "an express, mongodb server for the real estate portal",
+  "main": "index.js",
+  "scripts": {
+    "test": "javascript"
+  },
+  "keywords": [
+    "javascript"
+  ],
+  "author": "Mdshk",
+  "license": "ISC"
+}
