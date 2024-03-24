@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import { supabase } from "../utils/supabase/client";
 import { useRouter } from "next/navigation";
 
 function page() {
@@ -14,24 +13,7 @@ function page() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if(!email || !password) {
-          console.log("no email or password")
-          return
-        }
-       
-        const { error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-       });
-      
-       if (error) {
-          console.error('Error logging in:', error.message);
-       } else {
-          console.log('Logged in successfully');
-          router.push("/")
-       }        
-
-            
+        alert("Success")            
         
     }
 

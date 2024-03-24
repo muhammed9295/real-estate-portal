@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { supabase } from "../utils/supabase/client";
 import { useRouter } from "next/navigation";
 
 function page() {
@@ -14,22 +13,8 @@ function page() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
-    if (error) {
-      console.error(error);
-      setLoading(false);
-      return;
-    } else {
-      // Redirecting to Login Page
-      router.push("/login");
-    }
-
-    console.log(data);
-    setLoading(false);
+    alert("Success")
+    
   };
 
   return (

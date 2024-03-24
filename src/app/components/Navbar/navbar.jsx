@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { MdOutlineMenu, MdOutlineClose } from "react-icons/md";
 import { FaHouse, FaPhoneVolume } from "react-icons/fa6";
@@ -18,11 +18,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { BiLogOutCircle } from "react-icons/bi";
-import { supabase } from "@/app/utils/supabase/client";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState(false);
 
   const pathname = usePathname();
 
@@ -43,31 +42,10 @@ function Navbar() {
     },
   };
 
-  // Access user after login
-  useEffect(() => {
-    const session = supabase.auth.getSession();
-    setUserData(session?.user ?? null);
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
-      setUserData(session?.user ?? null);
-    });
-
-    return () => {
-      subscription?.unsubscribe();
-    };
-  }, []);
-
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    setUserData(null);
-  };
-
   return (
     <div className="sticky top-0 bg-white py-5 px-8 lg:px-20 flex justify-between items-center z-40 drop-shadow-lg">
       <Link href="/">
-        <Image src="/logo-light.png" width={120} height={50} alt="logo"/>
+        <Image src="/logo-light.png" width={120} height={50} alt="logo" />
       </Link>
 
       {/* Normal Menu */}
@@ -149,7 +127,10 @@ function Navbar() {
             <DropdownMenu>
               <DropdownMenuTrigger className="rounded-full">
                 <Avatar>
-                  <AvatarImage src="https://github.com/shadcn.png" alt="profile-pic" />
+                  <AvatarImage
+                    src="https://github.com/shadcn.png"
+                    alt="profile-pic"
+                  />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
@@ -157,14 +138,14 @@ function Navbar() {
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <Link href="/profile/:id">
-                <DropdownMenuItem className="text-base cursor-pointer">
-                  Profile
-                </DropdownMenuItem>
+                  <DropdownMenuItem className="text-base cursor-pointer">
+                    Profile
+                  </DropdownMenuItem>
                 </Link>
                 <Link href="/wishlist">
-                <DropdownMenuItem className="text-base cursor-pointer">
-                  My Wishlists
-                </DropdownMenuItem>
+                  <DropdownMenuItem className="text-base cursor-pointer">
+                    My Wishlists
+                  </DropdownMenuItem>
                 </Link>
                 <DropdownMenuItem className="text-base cursor-pointer">
                   Team
@@ -173,7 +154,6 @@ function Navbar() {
                   Subscription
                 </DropdownMenuItem>
                 <Button
-                  onClick={handleLogout}
                   className="my-3 w-full font-normal text-lg hover:bg-secondary hover:text-white"
                 >
                   <BiLogOutCircle className=" mr-2" /> Logout
@@ -216,7 +196,7 @@ function Navbar() {
         >
           <div className="flex flex-col items-center justify-start gap-5 text-xl text-black font-semibold">
             <div className="w-full bg-white z-40 py-5 px-8 drop-shadow-lg mb-5">
-              <Image src="/logo-light.png" width={120} height={50} alt="logo"/>
+              <Image src="/logo-light.png" width={120} height={50} alt="logo" />
             </div>
             <Link className="hover:text-primary text-white" href="/">
               Home

@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import React, { useState } from "react";
-import { supabase } from "@/app/utils/supabase/client";
 
 function page() {
   const [firstName, setFirstName] = useState("");
@@ -13,59 +12,9 @@ function page() {
   const [phone, setPhone] = useState("");
   const [avatar, setAvatar] = useState(null);
 
-  function getCurrentUserId() {
-    const user = supabase.auth.getUser();
-    if (user) {
-       return user.id;
-    } else {
-       console.log('No user is currently logged in.');
-       return null;
-    }
-   }
-
-   const userId = getCurrentUserId();
-console.log('Current user ID:', userId);
-   
-
-  const handleFileChange = async (event) => {
-    try {
-      if (!event.target.files || event.target.files.length === 0) {
-        throw new Error("You must select an image to upload.");
-      }
-
-      const file = event.target.files[0];
-      const filePath = `avatar_${Date.now()}.png`;
-
-      const { error: uploadError } = await supabase.storage
-        .from("avatar")
-        .upload(filePath, file);
-
-        console.log(uploadError);
-
-      if (uploadError) {
-        throw uploadError;
-      }
-
-      onUpload(filePath);
-    } catch (error) {
-      alert("Error uploading avatar!");
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // upload avatar file first
-
-    // Insert user data into the table
-    const { errors } = await supabase.from("user").upsert({
-      first_name: firstName,
-      last_name: lastName,
-      email,
-      phone,
-      avatar: fileData.Key,
-    });
-    if (errors) throw error;
-    console.log(errors);
+    alert("Success");
   };
 
   return (
@@ -87,7 +36,6 @@ console.log('Current user ID:', userId);
             type="file"
             className="appearance-none opacity-0 absolute px-2 py-3 top-0 left-0 w-32 cursor-pointer"
             accept="image/*"
-            onChange={handleFileChange}
           />
         </div>
         <span className="flex flex-col items-center gap-1">
