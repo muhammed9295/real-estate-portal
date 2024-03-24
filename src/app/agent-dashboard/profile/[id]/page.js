@@ -16,6 +16,7 @@ function page() {
             width={300}
             height={300}
             className="rounded-full"
+            alt="profile-pic"
           />
           <div className="w-1/2 flex flex-col gap-5">
             <h3 className="text-2xl font-semibold mb-5">Firstname Lastname</h3>

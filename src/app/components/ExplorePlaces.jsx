@@ -10,19 +10,19 @@ function ExplorePlaces() {
 
         <div className="flex flex-col lg:flex-row md:items-center lg:justify-around gap-2 p-5 md:py-8 lg:px-10 lg:py-10">
             <div className="py-5">
-            <Image src="/saudi/riyadh.png" width={350} height={220} className="rounded-3xl cursor-pointer transition-transform duration-500 hover:scale-105"/>
+            <Image src="/saudi/riyadh.png" width={350} height={220} className="rounded-3xl cursor-pointer transition-transform duration-500 hover:scale-105" alt="riyadh"/>
             <h3 className="font-bold text-xl mt-5 ml-3">Riyadh</h3>
             </div>
             <div className="py-5">
-            <Image src="/saudi/jeddah.png" width={350} height={220} className="rounded-3xl cursor-pointer transition-transform duration-500 hover:scale-105"/>
+            <Image src="/saudi/jeddah.png" width={350} height={220} className="rounded-3xl cursor-pointer transition-transform duration-500 hover:scale-105" alt="jeddah"/>
             <h3 className="font-bold text-xl mt-5 ml-3">Jeddah</h3>
             </div>
             <div className="py-5">
-            <Image src="/saudi/medina.png" width={350} height={220} className="rounded-3xl cursor-pointer transition-transform duration-500 hover:scale-105"/>
+            <Image src="/saudi/medina.png" width={350} height={220} className="rounded-3xl cursor-pointer transition-transform duration-500 hover:scale-105" alt="medina"/>
             <h3 className="font-bold text-xl mt-5 ml-3">Medina</h3>
             </div>
             <div className="py-5">
-            <Image src="/saudi/dammam.png" width={350} height={220} className="rounded-3xl cursor-pointer transition-transform duration-500 hover:scale-105"/>
+            <Image src="/saudi/dammam.png" width={350} height={220} className="rounded-3xl cursor-pointer transition-transform duration-500 hover:scale-105" alt="dammam"/>
             <h3 className="font-bold text-xl mt-5 ml-3">Dammam</h3>
             </div>
         </div>

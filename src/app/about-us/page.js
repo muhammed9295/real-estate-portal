@@ -23,7 +23,7 @@ function About() {
           <p className="pl-5 mt-5">CEO & Co-Founder</p>
           <p className="pl-5 font-bold">Mdshk</p>
         </div>
-        <Image className="rounded-2xl mt-5 lg:mt-0" src="/about/about-us-cover.jpg" width={500} height={500} />
+        <Image className="rounded-2xl mt-5 lg:mt-0" src="/about/about-us-cover.jpg" width={500} height={500} alt="about-us-image" />
       </div>
       {/* About Us - Intro */}
 

@@ -189,6 +189,7 @@ function AllProperties() {
                       width={300}
                       height={300}
                       className="transition-transform duration-500 group-hover:scale-110"
+                      alt={property.title}
                     />
                     <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
                   </div>

@@ -87,7 +87,7 @@ function Footer() {
       </div>
       <Separator className="my-8 bg-gray-800" />
       <div className="flex flex-col lg:flex-row justify-between items-center gap-8">
-        <Image src="/logo-dark.png" width={200} height={200} />
+        <Image src="/logo-dark.png" width={200} height={200} alt="logo"/>
         <p className="text-white text-center">Copyright © 2024 Real estate CP. Designed & Developed by mdshk</p>
         <span className="flex gap-5 ">
         <FaFacebook className="text-white hover:text-primary cursor-pointer text-2xl"/>
