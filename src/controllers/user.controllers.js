@@ -3,6 +3,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { apiError } from "../utils/apiErrors.js";
 import { apiResponse } from "../utils/apiResponse.js";
 import { User } from "../models/user.models.js";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 // Register User
 const registerUser = asyncHandler(async (req, res) => {
@@ -137,4 +138,41 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 });
 // Get User Details
 
-export { registerUser, loginUser, logoutUser, getCurrentUser };
+// Update User Details(
+const updateUser = asyncHandler(async (req, res) => {
+  const { firstName, lastName, email, phone } = req.body;
+
+  const avatarLocalPath = req.file?.path;
+
+  const newAvatar = !avatarLocalPath
+    ? ""
+    : await uploadOnCloudinary(avatarLocalPath);
+
+  const updatedFields = {
+    firstName,
+    lastName,
+    email,
+    phone,
+    avatar: newAvatar.url,
+  };
+
+  Object.keys(updatedFields).forEach(
+    (key) =>
+      (updatedFields[key] === "" || undefined) && delete updatedFields[key]
+  );
+
+  const updatedUser = await User.findByIdAndUpdate(
+    req.user?._id,
+    {
+      $set: updatedFields,
+    },
+    { new: true }
+  ).select("-password -refreshToken");
+
+  return res
+    .status(201)
+    .json(new apiResponse(200, updatedUser, "User updated successfully"));
+});
+// Update User Details
+
+export { registerUser, loginUser, logoutUser, getCurrentUser, updateUser };
