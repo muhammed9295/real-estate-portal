@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { MdOutlineMenu, MdOutlineClose } from "react-icons/md";
 import { FaHouse, FaPhoneVolume } from "react-icons/fa6";
@@ -18,12 +18,45 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { BiLogOutCircle } from "react-icons/bi";
+import axios from "axios";
+import { toast, Toaster } from "sonner";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
-  const [userData, setUserData] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const pathname = usePathname();
+
+  // Get userdata
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const token = localStorage.getItem("accessToken");
+      if (token) {
+        setIsLoggedIn(true)
+      }
+    };
+
+    fetchUserData();
+  }, []);
+  // Get userdata
+
+  // Logout user
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/users/logout",
+        {},
+        { withCredentials: true }
+      );
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      setIsLoggedIn(false);
+    } catch (error) {
+      console.log(error);
+      toast.error("An error occurred during logout. Please try again");
+    }
+  };
+  // Logout user
 
   const listVariants = {
     closed: {
@@ -123,7 +156,7 @@ function Navbar() {
             </li>
           </Link>
 
-          {userData ? (
+          {isLoggedIn ? (
             <DropdownMenu>
               <DropdownMenuTrigger className="rounded-full">
                 <Avatar>
@@ -154,6 +187,7 @@ function Navbar() {
                   Subscription
                 </DropdownMenuItem>
                 <Button
+                  onClick={handleLogout}
                   className="my-3 w-full font-normal text-lg hover:bg-secondary hover:text-white"
                 >
                   <BiLogOutCircle className=" mr-2" /> Logout
@@ -168,6 +202,7 @@ function Navbar() {
             </Link>
           )}
         </ul>
+        <Toaster />
       </div>
       {/* Normal Menu */}
 
