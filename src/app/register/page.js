@@ -102,7 +102,7 @@ function page() {
           </span>
           {loading ? (
             <Button
-              type="submit"
+              disabled
               className="w-32 text-text text-lg font-semibold hover:bg-secondary hover:text-white"
             >
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />

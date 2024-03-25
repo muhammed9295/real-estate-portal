@@ -24,6 +24,8 @@ import { toast, Toaster } from "sonner";
 function Navbar() {
   const [open, setOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [icon, setIcon] = useState("")
+  const [fallBack, setFallBack] = useState("")
 
   const pathname = usePathname();
 
@@ -33,7 +35,17 @@ function Navbar() {
       const token = localStorage.getItem("accessToken");
       if (token) {
         setIsLoggedIn(true)
-      }
+      
+
+      const response = await axios.get("http://localhost:8000/api/users/current-user", {withCredentials:true})
+      setIcon(response.data.data)
+
+      const fName = response.data.data.firstName
+      const lName = response.data.data.lastName
+      const firstLetters = [fName, lName].map(name => name[0]).join('');
+
+      setFallBack(firstLetters)
+    }
     };
 
     fetchUserData();
@@ -160,11 +172,12 @@ function Navbar() {
             <DropdownMenu>
               <DropdownMenuTrigger className="rounded-full">
                 <Avatar>
+                  
                   <AvatarImage
-                    src="https://github.com/shadcn.png"
+                    src={icon? (icon.avatar):("/noavatar.png") }
                     alt="profile-pic"
                   />
-                  <AvatarFallback>CN</AvatarFallback>
+                  <AvatarFallback>{fallBack}</AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="p-5">

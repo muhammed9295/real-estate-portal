@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { toast } from "sonner";
+import { toast, Toaster } from "sonner";
 
 function page() {
   const [email, setEmail] = useState("");
@@ -66,7 +66,7 @@ function page() {
           >
             Login
           </Button>
-
+          <Toaster />
           <p className="text-sm">
             If you are not a user? <em>Register</em>
           </p>
