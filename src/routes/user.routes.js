@@ -12,4 +12,5 @@ router.route("/login").post(loginUser);
 router.route("/logout").post(verifyJWT, logoutUser);
 router.route("/current-user").get(verifyJWT, getCurrentUser)
 router.route("/update-profile").patch(verifyJWT, upload.single("avatar"),updateUser)
+
 export default router;

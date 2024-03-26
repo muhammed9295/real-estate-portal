@@ -10,12 +10,14 @@ const userSchema = new Schema(
       trim: true,
       index: true,
     },
+
     lastName: {
       type: "string",
       required: true,
       trim: true,
       index: true,
     },
+
     email: {
       type: "string",
       required: true,
@@ -23,16 +25,25 @@ const userSchema = new Schema(
       trim: true,
       unique: true,
     },
+
     password: {
       type: String,
       required: [true, "Password is required"],
     },
+
     phone: {
       type: String,
     },
+
     avatar: {
       type: String,
     },
+
+    properties:[{
+      type:Schema.Types.ObjectId,
+      ref:"Property"
+    }],
+
     refreshToken: {
       type: String,
     },
