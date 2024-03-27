@@ -8,6 +8,7 @@ cloudinary.config({
 });
 
 const uploadOnCloudinary = async (localFilePath) => {
+  console.log(localFilePath);
   try {
     if (!localFilePath) return null;
     // Upload the file in cloudinary
@@ -24,4 +25,26 @@ const uploadOnCloudinary = async (localFilePath) => {
   }
 };
 
-export { uploadOnCloudinary };
+const uploadMultipleOnCloudinary = async (localFilePaths) => {
+  try {
+    if (!localFilePaths || !Array.isArray(localFilePaths)) return null;
+
+    // Upload the files in cloudinary
+    const responses = await Promise.all(
+      localFilePaths.map((filePath) =>
+        cloudinary.uploader.upload(filePath, { resource_type: "auto" })
+      )
+    );
+
+    // Delete local file after upload
+    localFilePaths.forEach(filePath => fs.unlinkSync(filePath));
+    return responses;
+    // Delete local file after upload
+
+  } catch (error) {
+    localFilePaths.forEach(filePath => fs.unlink(filePath))
+    return null;
+  }
+};
+
+export { uploadOnCloudinary, uploadMultipleOnCloudinary };

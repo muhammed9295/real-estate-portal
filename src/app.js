@@ -22,11 +22,13 @@ app.use(cookieParser());
 // Routes Import
 import userRouter from "./routes/user.routes.js";
 import agentRouter from "./routes/agent.routes.js";
+import propertyRouter from "./routes/property.routes.js";
 // Routes Import
 
 // Routes Declarations
 app.use("/api/users", userRouter);
-app.use("/api/agents", agentRouter)
+app.use("/api/agents", agentRouter);
+app.use("/api/properties", propertyRouter);
 // Routes Declarations
 
 export { app };
