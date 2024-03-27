@@ -15,7 +15,7 @@ function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <div className="bg-white h-[calc(100dvh-80px)] p-5">
+    <div className="bg-white h-[calc(100dvh-60px)] p-5">
       <ul className="hidden lg:flex flex-col gap-1 mt-5">
         <Link href="/agent-dashboard/all-listings">
           <li

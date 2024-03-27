@@ -1,3 +1,8 @@
+"use client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { toast, Toaster } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
@@ -5,6 +10,37 @@ import Image from "next/image";
 import Link from "next/link";
 
 function page() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const router = useRouter();
+
+  // Login User
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/agents/login-agent",
+        { email, password },
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+      if (response.data.statusCode === 200) {
+        toast.success(response.data.message);
+        localStorage.setItem("accessToken", response.data.data.accessToken);
+        localStorage.setItem("refreshToken", response.data.data.refreshToken);
+        router.push("/agent-dashboard");
+      } else {
+        toast.error("Login failed. Please try again");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred while logging in. Please try again.");
+    }
+  };
+  // Login User
+
   return (
     <div className="w-full h-dvh flex">
       <div className="hidden lg:flex w-1/3 bg-[url(/register-image.jpg)] bg-cover bg-center bg-no-repeat flex-col justify-between">
@@ -27,11 +63,28 @@ function page() {
           alt="logo"
         />
         <div className="p-10 bg-white border rounded-md flex flex-col items-center md:w-1/2 lg:w-2/5">
-          <form className="flex flex-col gap-5 items-center w-full lg:gap-8">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col gap-5 items-center w-full lg:gap-8"
+          >
             <h2 className="text-2xl font-bold">Login</h2>
-            <Input placeholder="Email" className="h-10" />
-            <Input placeholder="Password" className="h-10" />
-            <Button className="w-full hover:bg-secondary">Login</Button>
+            <Input
+              placeholder="Email"
+              className="h-10"
+              type="email"
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+            />
+            <Input
+              placeholder="Password"
+              className="h-10"
+              type="password"
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+            />
+            <Button type="submit" className="w-full hover:bg-secondary">Login</Button>
           </form>
           <span className="flex gap-2 justify-center items-center w-full my-3">
             <Separator className="w-1/2" />
@@ -48,6 +101,7 @@ function page() {
           Protected by reCAPTCHA and subject to the mdshk properties Privacy
           Policy and Terms of Service.
         </p>
+        <Toaster />
       </div>
     </div>
   );

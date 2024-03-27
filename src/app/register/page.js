@@ -51,7 +51,6 @@ function page() {
         },
       });
       setLoading(true);
-      console.log(response.data);
       // toast message
       toast.success("Registered Successfully!!");
 
