@@ -39,7 +39,7 @@ const addProperties = asyncHandler(async (req, res) => {
 
   // check for images
   const propertyImagesLocalPath = req.files.map((file) => file.path);
-
+// console.log(propertyImagesLocalPath)
   if (!propertyImagesLocalPath) {
     throw new apiError(400, "Images are required");
   }
@@ -114,7 +114,15 @@ const getProperties = asyncHandler(async (req, res) => {
         city: 1,
         description: 1,
         price: 1,
-        agent_details: 1,
+        agent_details: {
+          _id: "$agent_details._id",
+          firstName: "$agent_details.firstName",
+          lastName: "$agent_details.lastName",
+          email: "$agent_details.email",
+          companyName: "$agent_details.companyName",
+          phone: "$agent_details.phone",
+          avatar: "$agent_details.avatar",
+        },
       },
     },
   ]);
@@ -173,34 +181,53 @@ const getSingleProperties = asyncHandler(async (req, res) => {
 });
 // Get Single Properties
 
+// Get Agent Created Properties
+const getAgentProperties = asyncHandler(async (req, res) => {
+
+  const agentProperties = await Property.find({ agent: req.agent._id });
+
+  return res
+    .status(200)
+    .json(new apiResponse(200, agentProperties, "Agents properties fetched"));
+});
+// Get Agent Created Properties
+
 // Update Single Properties
 // Update Single Properties
 
 // Delete Single Properties
-const deleteSingleProperties = asyncHandler(async(req, res)=>{
+const deleteSingleProperties = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
-    
+
     // Validate the id
-    if(!id?.trim()){
-      throw new apiError(400, "Property id is required")
+    if (!id?.trim()) {
+      throw new apiError(400, "Property id is required");
     }
 
     // Find the id and delete
     const deletedProperty = await Property.findByIdAndDelete(id);
 
-    if(!deletedProperty){
-      throw new apiError(404, "Property not found")
+    if (!deletedProperty) {
+      throw new apiError(404, "Property not found");
     }
 
     return res
-     .status(200)
-     .json(new apiResponse(200, deletedProperty, "Property deleted successfully"));
+      .status(200)
+      .json(
+        new apiResponse(200, deletedProperty, "Property deleted successfully")
+      );
   } catch (error) {
-    console.error("Error deleting property", error)
-    res.status(500).send({message: "Error deleting property"})
+    console.error("Error deleting property", error);
+    res.status(500).send({ message: "Error deleting property" });
   }
-})
+});
 // Delete Single Properties
 
-export { addProperties, getProperties, getSingleProperties, deleteSingleProperties };
+export {
+  addProperties,
+  getProperties,
+  getSingleProperties,
+  deleteSingleProperties,
+  getAgentProperties,
+};
