@@ -1,3 +1,5 @@
+"use client";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,147 +11,338 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import axios from "axios";
+import { Toaster, toast } from "sonner";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 function page() {
+  const [images, setImages] = useState([]);
+  const [formData, setFormData] = useState({
+    title: "",
+    propertyType: "",
+    listingType: "",
+    bedrooms: "",
+    bathrooms: "",
+    amenities: "",
+    propertyImages: [],
+    address: "",
+    neighbourhood: "",
+    city: "",
+    description: "",
+    price: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleValueChange = (value, name) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleImageChange = (e) => {
+    const filesList = Array.from(e.target.files);
+    // const names = [...images];
+    // for (let i = 0; i < files.length; i++) {
+    //   names.push(files[i].name);
+    // }
+    // setImages(names);
+    for (let index = 0; index < filesList.length; index++) {
+      const file = filesList[index];
+
+      setFormData((prevState) => ({
+        ...prevState,
+        propertyImages: [...prevState.propertyImages, file],
+      }));
+    }
+  };
+
+  // Create properties
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // setLoading(true);
+
+    const formDataToSend = new FormData();
+    Object.keys(formData).forEach((key) => {
+      if (key === "propertyImages") {
+        formData[key].forEach((image) => {
+          formDataToSend.append("propertyImages", image);
+        });
+      } else if (formData[key] !== null) {
+        formDataToSend.append(key, formData[key]);
+      }
+    });
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/properties/add-properties",
+        formDataToSend,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
+        }
+      );
+      toast.success("Add new property");
+
+      // Reset form data after submission
+      setFormData({
+        title: "",
+        propertyType: "",
+        listingType: "",
+        bedrooms: "",
+        bathrooms: "",
+        amenities: "",
+        propertyImages: "",
+        address: "",
+        neighbourhood: "",
+        city: "",
+        description: "",
+        price: "",
+      });
+      setImages([]);
+      router.push("/agent-dashboard/all-listings");
+    } catch (error) {
+      toast.error("Failed to add properties. Please try again.");
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  // Create properties
+
   return (
-    <div className="bg-white flex flex-col items-center p-10 rounded-lg drop-shadow-md">
+    <div className="bg-white grid gap-5 p-10 rounded-lg drop-shadow-md">
       <span className="w-full">
         <h2 className="text-xl font-bold">Create Listing</h2>
       </span>
 
-      <form action="" className="w-full my-8 flex flex-col items-center gap-8">
-        <div className="flex gap-5 px-20 w-full">
-          <span className="w-2/3 flex flex-col gap-3">
-            <Label htmlFor="email" className="font-semibold">
-              Property Name
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-5">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <span className="flex flex-col gap-2">
+            <Label className="font-semibold text-base">
+              Property Name <span className="text-red-700">*</span>
             </Label>
-            <Input placehoder="" />
+            <Input
+              type="text"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              className="h-11"
+              placeholder=""
+            />
           </span>
-
-          <span className="w-1/3 flex flex-col gap-3">
-            <Label htmlFor="email" className="font-semibold">
-              Property Type
+          <span className="flex flex-col gap-2">
+            <Label className="font-semibold text-base">
+              Property Type <span className="text-red-700">*</span>
             </Label>
-            <Select>
-              <SelectTrigger>
+            <Select
+              onValueChange={(value) =>
+                handleValueChange(value, "propertyType")
+              }
+            >
+              <SelectTrigger className="h-11">
                 <SelectValue placeholder="Property Type" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="light">Residential</SelectItem>
-                <SelectItem value="dark">Commercial</SelectItem>
+                <SelectItem value="residential">Residential</SelectItem>
+                <SelectItem value="commercial">Commercial</SelectItem>
               </SelectContent>
             </Select>
           </span>
+        </div>
 
-          <span className="w-1/3 flex flex-col gap-3">
-            <Label htmlFor="email" className="font-semibold">
-              Listing Type
+        <div className="grid gap-4 sm:grid-cols-2">
+          <span className="flex flex-col gap-2">
+            <Label className="font-semibold text-base">
+              Listing Type <span className="text-red-700">*</span>
             </Label>
-            <Select>
-              <SelectTrigger>
+            <Select
+              onValueChange={(value) => handleValueChange(value, "listingType")}
+              // name="listingType"
+              // value={formData.listingType}
+            >
+              <SelectTrigger className="h-11">
                 <SelectValue placeholder="Listing Type" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="light">For Sale</SelectItem>
-                <SelectItem value="dark">For Rent</SelectItem>
+                <SelectItem value="sale">For Sale</SelectItem>
+                <SelectItem value="rent">For Rent</SelectItem>
               </SelectContent>
             </Select>
           </span>
-        </div>
 
-        <div className="flex gap-5 px-20 w-full">
-          <span className="w-1/2 flex flex-col gap-3">
-            <Label htmlFor="email" className="font-semibold">
-              Bedrooms
+          <span className="flex flex-col gap-2">
+            <Label className="font-semibold text-base">
+              Bedrooms <span className="text-red-700">*</span>
             </Label>
-            <Select>
-              <SelectTrigger>
-                <SelectValue />
+            <Select
+              onValueChange={(value) => handleValueChange(value, "bedrooms")}
+              // name="bedrooms"
+              // value={formData.bedrooms}
+            >
+              <SelectTrigger className="h-11">
+                <SelectValue placeholder="Bedrooms" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="light">1</SelectItem>
-                <SelectItem value="light">2</SelectItem>
-                <SelectItem value="dark">3</SelectItem>
-                <SelectItem value="dark">4</SelectItem>
-                <SelectItem value="dark">5</SelectItem>
+                <SelectItem value="1">1</SelectItem>
+                <SelectItem value="2">2</SelectItem>
+                <SelectItem value="3">3</SelectItem>
+                <SelectItem value="4">4</SelectItem>
+                <SelectItem value="5">5</SelectItem>
               </SelectContent>
             </Select>
           </span>
+        </div>
 
-          <span className="w-1/2 flex flex-col gap-3">
-            <Label htmlFor="email" className="font-semibold">
-              Bathrooms
+        <div className="grid gap-4 sm:grid-cols-2">
+          <span className="flex flex-col gap-2">
+            <Label className="font-semibold text-base">
+              Bathrooms <span className="text-red-700">*</span>
             </Label>
-            <Select>
-              <SelectTrigger>
-                <SelectValue />
+            <Select
+              onValueChange={(value) => handleValueChange(value, "bathrooms")}
+              // name="bathrooms"
+              // value={formData.bathrooms}
+            >
+              <SelectTrigger className="h-11">
+                <SelectValue placeholder="Bathrooms" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="light">1</SelectItem>
-                <SelectItem value="light">2</SelectItem>
-                <SelectItem value="dark">3</SelectItem>
+                <SelectItem value="1">1</SelectItem>
+                <SelectItem value="2">2</SelectItem>
+                <SelectItem value="3">3</SelectItem>
               </SelectContent>
             </Select>
           </span>
 
-          <span className="w-1/2 flex flex-col gap-3">
-            <Label htmlFor="email" className="font-semibold">
-              Amenities
-            </Label>
-            <Input />
+          <span className="flex flex-col gap-2">
+            <Label className="font-semibold text-base">Amenities</Label>
+            <Input
+              type="text"
+              name="amenities"
+              value={formData.amenities}
+              onChange={handleChange}
+              className="h-11"
+            />
           </span>
         </div>
 
-        <div className="flex gap-5 px-20 w-full">
-          <span className="w-1/2 flex flex-col gap-3">
-            <Label htmlFor="email" className="font-semibold">
-              Photos
-            </Label>
-            <Input type="file" />
+        <div className="grid gap-4 sm:grid-cols-2">
+          <span className="flex flex-col gap-2">
+            <Label className="font-semibold text-base">Photos</Label>
+            <Input
+              type="file"
+              multiple
+              className="h-11"
+              onChange={handleImageChange}
+            />
+            <span className="flex gap-3">
+              {images.map((image, index) => (
+                <p
+                  className="bg-secondary text-white rounded-2xl p-2 text-[12px]"
+                  key={index}
+                >
+                  {image}
+                </p>
+              ))}
+            </span>
           </span>
 
-          <span className="w-1/2 flex flex-col gap-3">
-            <Label htmlFor="email" className="font-semibold">
-              Address
-            </Label>
-            <Input type="text" />
-          </span>
-        </div>
-
-        <div className="flex gap-5 px-20 w-full">
-          <span className="w-1/2 flex flex-col gap-3">
-            <Label htmlFor="email" className="font-semibold">
-              Neighborhood
-            </Label>
-            <Input type="text" />
-          </span>
-
-          <span className="w-1/2 flex flex-col gap-3">
-            <Label htmlFor="email" className="font-semibold">
-              City
-            </Label>
-            <Input type="text" />
-          </span>
-
-          <span className="w-1/2 flex flex-col gap-3">
-            <Label htmlFor="email" className="font-semibold">
-              Price
-            </Label>
-            <Input type="text" />
+          <span className="flex flex-col gap-2">
+            <Label className="font-semibold text-base">Address</Label>
+            <Input
+              type="text"
+              name="address"
+              value={formData.address}
+              onChange={handleChange}
+              className="h-11"
+            />
           </span>
         </div>
 
-        <div className="flex gap-5 px-20 w-full">
-          <span className="w-full flex flex-col gap-3">
-            <Label htmlFor="email" className="font-semibold">
-              Description
+        <div className="grid gap-4 sm:grid-cols-2">
+          <span className="flex flex-col gap-2">
+            <Label className="font-semibold text-base">
+              Neighborhood <span className="text-red-700">*</span>
             </Label>
-            <Textarea />
+            <Input
+              type="text"
+              name="neighbourhood"
+              value={formData.neighbourhood}
+              onChange={handleChange}
+              className="h-11"
+            />
+          </span>
+
+          <span className="flex flex-col gap-2">
+            <Label className="font-semibold text-base">City</Label>
+            <Input
+              type="text"
+              name="city"
+              value={formData.city}
+              onChange={handleChange}
+              className="h-11"
+            />
           </span>
         </div>
 
-        <Button className="w-36 text-text font-semibold  hover:bg-secondary hover:text-white">Submit</Button>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <span className="flex flex-col gap-2">
+            <Label className="font-semibold text-base">Description</Label>
+            <Textarea
+              type="text"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+            />
+          </span>
+
+          <span className="flex flex-col gap-2">
+            <Label className="font-semibold text-base">
+              Price <span className="text-red-700">*</span>
+            </Label>
+            <Input
+              type="text"
+              name="price"
+              value={formData.price}
+              onChange={handleChange}
+              className="h-11"
+            />
+          </span>
+        </div>
+
+        <div className="flex sm:justify-center lg:justify-end ">
+          {loading ? (
+            <Button
+              type="submit"
+              className="w-36 text-text font-semibold  hover:bg-secondary hover:text-white"
+            >
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Please wait
+            </Button>
+          ) : (
+            <Button
+              type="submit"
+              className="w-36 text-text font-semibold  hover:bg-secondary hover:text-white"
+            >
+              Submit
+            </Button>
+          )}
+        </div>
       </form>
+      <Toaster />
     </div>
   );
 }

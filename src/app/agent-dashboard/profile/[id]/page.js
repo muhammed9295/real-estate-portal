@@ -30,7 +30,6 @@ function page() {
         { withCredentials: true }
       );
       setAgent(response.data.data);
-      console.log(response.data.data);
     };
     fetchAgentData();
   }, []);

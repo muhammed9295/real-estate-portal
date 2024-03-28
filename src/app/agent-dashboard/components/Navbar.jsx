@@ -22,7 +22,6 @@ function Navbar() {
   // Logout user
   const handleLogout = async (e) => {
     e.preventDefault();
-    console.log("In progress");
     try {
       const response = await axios.post(
         "http://localhost:8000/api/agents/logout-agent",
