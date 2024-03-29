@@ -27,6 +27,7 @@ import Alert from "../components/Alert";
 import RecommendedSearches from "../components/RecommendedSearches";
 import TopSearches from "../components/TopSearches";
 import axios from "axios";
+import Link from "next/link";
 
 function AllProperties() {
   const [properties, setProperties] = useState([]);
@@ -127,6 +128,7 @@ function AllProperties() {
               return (
                 <Card key={property._id}>
                   <CardHeader>
+                    <Link href={`/all-properties/${property._id}`}>
                     <div className="group relative overflow-hidden rounded-lg mb-2 cursor-pointer">
                       <Image
                         src={property.propertyImages[0]}
@@ -137,9 +139,12 @@ function AllProperties() {
                       />
                       <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
                     </div>
+                    </Link>
+                    <Link href={`/all-properties/${property._id}`}>
                     <CardTitle className="md:text-lg lg:text-xl">
                       {property.title}
                     </CardTitle>
+                    </Link>
                     <CardDescription className="flex items-center gap-1 md:text-[12px] lg:text-sm">
                       <MdLocationPin /> {property.address}
                     </CardDescription>
@@ -156,9 +161,11 @@ function AllProperties() {
                     </p>
                   </CardContent>
                   <div className="flex items-center justify-between px-4 mb-5">
-                    <Button className="w-2/5 text-text hover:bg-secondary hover:text-white">
+                  <Link className="w-2/5" href={`/all-properties/${property._id}`}>
+                    <Button className="w-full text-text hover:bg-secondary hover:text-white">
                       Check
                     </Button>
+                    </Link>
                     <p className="font-bold text-secondary">
                       $ {property.price}
                     </p>
