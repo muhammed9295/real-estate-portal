@@ -28,8 +28,8 @@ function Navbar() {
         {},
         { withCredentials: true }
       );
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
       router.push("/agent-login");
     } catch (error) {
       console.log(error);

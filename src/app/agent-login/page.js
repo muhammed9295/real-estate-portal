@@ -28,8 +28,8 @@ function page() {
       );
       if (response.data.statusCode === 200) {
         toast.success(response.data.message);
-        localStorage.setItem("accessToken", response.data.data.accessToken);
-        localStorage.setItem("refreshToken", response.data.data.refreshToken);
+        localStorage.setItem("access_token", response.data.data.accessToken);
+        localStorage.setItem("refresh_token", response.data.data.refreshToken);
         router.push("/agent-dashboard");
       } else {
         toast.error("Login failed. Please try again");

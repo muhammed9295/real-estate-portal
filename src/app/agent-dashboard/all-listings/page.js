@@ -11,15 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+
 import axios from "axios";
 import { MdDelete } from "react-icons/md";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
@@ -48,7 +40,6 @@ function page() {
 
   // Delete property
   const deleteProperty = async (id) => {
-   
     try {
       await axios.delete(
         `http://localhost:8000/api/properties/delete-singleProperty/${id}`,
@@ -68,7 +59,6 @@ function page() {
 
   // calculate total pages
   const totalPages = Math.ceil(properties.length / itemsPerPage);
-  
 
   // function to handle page changes
   const handlePageChange = (pageNumber) => {
@@ -94,7 +84,7 @@ function page() {
 
       {/* Table */}
       <div className="w-full mt-5">
-        <Table>          
+        <Table>
           <TableHeader>
             <TableRow>
               <TableHead className="w-1/3">Title</TableHead>

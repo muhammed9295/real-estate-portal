@@ -156,8 +156,12 @@ function page() {
                 <SelectValue placeholder="Property Type" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="residential">Residential</SelectItem>
-                <SelectItem value="commercial">Commercial</SelectItem>
+                <SelectItem value="Apartment">Apartment</SelectItem>
+                <SelectItem value="Villa">Villa</SelectItem>
+                <SelectItem value="Penthouse">Penthouse</SelectItem>
+                <SelectItem value="Office">Office</SelectItem>
+                <SelectItem value="Shop">Shop</SelectItem>
+                <SelectItem value="Other">Other Commercial</SelectItem>
               </SelectContent>
             </Select>
           </span>
@@ -177,8 +181,8 @@ function page() {
                 <SelectValue placeholder="Listing Type" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="sale">For Sale</SelectItem>
-                <SelectItem value="rent">For Rent</SelectItem>
+                <SelectItem value="Buy">For Buy</SelectItem>
+                <SelectItem value="Rent">For Rent</SelectItem>
               </SelectContent>
             </Select>
           </span>
