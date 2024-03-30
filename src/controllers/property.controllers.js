@@ -146,7 +146,7 @@ const getSingleProperties = asyncHandler(async (req, res) => {
         from: "agents",
         localField: "agent",
         foreignField: "_id",
-        as: "agent_details",
+        as: "agents",
       },
     },
     {
@@ -170,9 +170,17 @@ const getSingleProperties = asyncHandler(async (req, res) => {
         city: 1,
         description: 1,
         price: 1,
-        agent_details: 1,
+        agent_details: {
+          _id: "$agent_details._id",
+          firstName: "$agent_details.firstName",
+          lastName: "$agent_details.lastName",
+          email: "$agent_details.email",
+          companyName: "$agent_details.companyName",
+          phone: "$agent_details.phone",
+          avatar: "$agent_details.avatar",
+        },
       },
-    },
+    }
   ]);
 
   return res
@@ -180,6 +188,26 @@ const getSingleProperties = asyncHandler(async (req, res) => {
     .json(new apiResponse(200, singleProperty, "Single properties fetched"));
 });
 // Get Single Properties
+
+// Get Properties - Buy
+const getBuyProperties = asyncHandler(async(req, res)=>{
+  const buyProperties = await Property.findOne({listingType: "Buy"});
+
+  return res
+   .status(200)
+   .json(new apiResponse(200, buyProperties, "Buy properties fetched"));
+})
+// Get Properties - Buy
+
+// Get Properties - Sale
+const getRentProperties = asyncHandler(async(req, res)=>{
+  const saleProperties = await Property.findOne({listingType: "Rent"});
+
+  return res
+   .status(200)
+   .json(new apiResponse(200, saleProperties, "Sale properties fetched"));
+})
+// Get Properties - Sale
 
 // Get Agent Created Properties
 const getAgentProperties = asyncHandler(async (req, res) => {
@@ -230,4 +258,6 @@ export {
   getSingleProperties,
   deleteSingleProperties,
   getAgentProperties,
+  getBuyProperties,
+  getRentProperties
 };

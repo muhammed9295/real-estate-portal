@@ -39,12 +39,12 @@ const registerAgent = asyncHandler(async (req, res) => {
 const generateAccessAndRefreshToken = async (userId) => {
   try {
     const agent = await Agent.findById(userId);
-    const accessToken = await agent.generateAccessToken();
-    const refreshToken = await agent.generateRefreshToken();
+    const access_token = await agent.generateAccessToken();
+    const refresh_token = await agent.generateRefreshToken();
 
-    agent.refreshToken = refreshToken;
+    agent.refreshToken = refresh_token;
     await agent.save({ validateBeforeSave: true });
-    return { accessToken, refreshToken };
+    return { access_token, refresh_token };
   } catch (error) {
     throw new apiError(
       500,
@@ -74,7 +74,7 @@ const loginAgent = asyncHandler(async (req, res) => {
     throw new apiError(401, "Password is not correct");
   }
 
-  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
+  const { access_token, refresh_token } = await generateAccessAndRefreshToken(
     agent._id
   );
 
@@ -89,12 +89,12 @@ const loginAgent = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .cookie("accessToken", accessToken, options)
-    .cookie("refreshToken", refreshToken, options)
+    .cookie("access_token", access_token, options)
+    .cookie("refresh_token", refresh_token, options)
     .json(
       new apiResponse(
         200,
-        { user: loggedInUser, accessToken, refreshToken },
+        { user: loggedInUser, access_token, refresh_token },
         "Agent logged in successfully"
       )
     );
@@ -120,8 +120,8 @@ const logoutAgent = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .clearCookie("accessToken", options)
-    .clearCookie("refreshToken", options)
+    .clearCookie("access_token", options)
+    .clearCookie("refresh_token", options)
     .json(new apiResponse(200, {}, "Agent logged out successfully"));
 });
 // Logout agents

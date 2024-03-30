@@ -175,4 +175,79 @@ const updateUser = asyncHandler(async (req, res) => {
 });
 // Update User Details
 
-export { registerUser, loginUser, logoutUser, getCurrentUser, updateUser };
+// Add wishlist or property id
+const addWishlist = asyncHandler(async (req,res)=>{
+  const {id} = req.params;
+
+  const user = await User.findByIdAndUpdate(
+    req.user?._id,
+    {
+      $addToSet: {
+        properties: id,
+      },
+    },
+    { new: true }
+  ).select("-password -refreshToken");
+
+  return res
+    .status(201)
+    .json(new apiResponse(200, user, "wishlist updated successfully"));
+})
+// Add wishlist or property id
+
+// Get wishlist
+const getWishList = asyncHandler(async(req, res)=>{
+  const wishlist = await User.aggregate(
+    [
+      {
+        $match: {
+          _id: new mongoose.Types.ObjectId(req.user._id),
+        },
+      },
+      {
+        $lookup: {
+          from: "properties",
+          localField: "properties",
+          foreignField: "_id",
+          as: "properties"
+        }
+      },
+      {
+        $project: {
+          firstName: 1,
+          lastName:2,
+          email:1,
+          properties:{
+            $map:{
+              input: "$properties",
+              as: "property",
+              in: {
+                _id: "$$property._id",
+                title: "$$property.title",
+                bedrooms:"$$property.bedrooms",
+                bathrooms:"$$property.bathrooms",
+                propertyImages: "$$property.propertyImages",
+                neighbourhood: "$$property.neighbourhood",
+                city: "$$property.city",
+                price: "$$property.price",
+                address:"$$property.address",
+                description: "$$property.description",
+              }
+            }
+          }
+          
+        }
+      }
+      
+    ]
+  )
+
+  return res
+   .status(200)
+   .json(new apiResponse(200, wishlist, "Wishlist fetched successfully"));
+})
+// Get wishlist
+
+
+
+export { registerUser, loginUser, logoutUser, getCurrentUser, updateUser, addWishlist, getWishList };
