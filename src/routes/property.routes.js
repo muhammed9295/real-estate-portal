@@ -6,6 +6,7 @@ import {
   getBuyProperties,
   getProperties,
   getRentProperties,
+  getSearchProperties,
   getSingleProperties,
 } from "../controllers/property.controllers.js";
 import { verifyAgentJWT } from "../middlewares/agent.auth.middlewares.js";
@@ -20,10 +21,12 @@ router
 router.route("/get-properties").get(getProperties);
 router.route("/get-buy-properties").get(getBuyProperties);
 router.route("/get-rent-properties").get(getRentProperties);
+router.route("/get-search-properties").get(getSearchProperties);
 router.route("/get-agentProperties").get(verifyAgentJWT, getAgentProperties);
 router.route("/get-singleProperty/:id").get(getSingleProperties);
 router
   .route("/delete-singleProperty/:id")
   .delete(verifyAgentJWT, deleteSingleProperties);
+
 
 export default router;

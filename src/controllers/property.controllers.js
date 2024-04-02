@@ -39,7 +39,7 @@ const addProperties = asyncHandler(async (req, res) => {
 
   // check for images
   const propertyImagesLocalPath = req.files.map((file) => file.path);
-// console.log(propertyImagesLocalPath)
+  // console.log(propertyImagesLocalPath)
   if (!propertyImagesLocalPath) {
     throw new apiError(400, "Images are required");
   }
@@ -180,7 +180,7 @@ const getSingleProperties = asyncHandler(async (req, res) => {
           avatar: "$agent_details.avatar",
         },
       },
-    }
+    },
   ]);
 
   return res
@@ -190,28 +190,27 @@ const getSingleProperties = asyncHandler(async (req, res) => {
 // Get Single Properties
 
 // Get Properties - Buy
-const getBuyProperties = asyncHandler(async(req, res)=>{
-  const buyProperties = await Property.findOne({listingType: "Buy"});
+const getBuyProperties = asyncHandler(async (req, res) => {
+  const buyProperties = await Property.find({ listingType: "Buy" });
 
   return res
-   .status(200)
-   .json(new apiResponse(200, buyProperties, "Buy properties fetched"));
-})
+    .status(200)
+    .json(new apiResponse(200, buyProperties, "Buy properties fetched"));
+});
 // Get Properties - Buy
 
 // Get Properties - Sale
-const getRentProperties = asyncHandler(async(req, res)=>{
-  const saleProperties = await Property.findOne({listingType: "Rent"});
+const getRentProperties = asyncHandler(async (req, res) => {
+  const saleProperties = await Property.find({ listingType: "Rent" });
 
   return res
-   .status(200)
-   .json(new apiResponse(200, saleProperties, "Sale properties fetched"));
-})
+    .status(200)
+    .json(new apiResponse(200, saleProperties, "Sale properties fetched"));
+});
 // Get Properties - Sale
 
 // Get Agent Created Properties
 const getAgentProperties = asyncHandler(async (req, res) => {
-
   const agentProperties = await Property.find({ agent: req.agent._id });
 
   return res
@@ -252,6 +251,62 @@ const deleteSingleProperties = asyncHandler(async (req, res) => {
 });
 // Delete Single Properties
 
+// Search properties using filters
+const getSearchProperties = asyncHandler(async (req, res) => {
+  // const {title, propertyType, listingType, bedrooms, bathrooms, city, neighbourhood, minPrice, maxPrice} = req.query;
+
+  let query = {};
+  if (req.query.propertyType) {
+    query.propertyType = req.query.propertyType;
+  }
+  if (req.query.listingType) {
+    query.listingType = req.query.listingType;
+  }
+  if (req.query.bedrooms) {
+    query.bedrooms = req.query.bedrooms;
+  }
+  if (req.query.bathrooms) {
+    query.bathrooms = req.query.bathrooms;
+  }
+  if (req.query.city) {
+    query.city = req.query.city;
+  }
+  if (req.query.neighbourhood) {
+    query.neighbourhood = req.query.neighbourhood;
+  }
+  if (req.query.minPrice) {
+    query.price = query.price || {};
+    query.price.$gte = parseInt(req.query.minPrice);
+  }
+  if (req.query.maxPrice) {
+    query.price = query.price || {};
+    query.price.$lte = parseInt(req.query.maxPrice);
+  }
+
+  if (!query.price) {
+    query.price = { $gte: 0, $lte: 1000000000000 }; // Example default values
+  }
+
+  const searchResults = await Property.find(query);
+  // .where("propertyType")
+  // .equals(req.query.propertyType)
+  // .where("listingType")
+  // .equals(req.query.listingType || undefined)
+  // .where("bedrooms")
+  // .equals(req.query.bedrooms)
+  // .where("bathrooms")
+  // .equals(req.query.bathrooms)
+  // .where("city")
+  // .equals(req.query.city)
+  // .where("neighbourhood")
+  // .equals(req.query.neighbourhood)
+
+  return res
+    .status(200)
+    .json(new apiResponse(200, searchResults, "Search results fetched"));
+});
+// Search properties using filters
+
 export {
   addProperties,
   getProperties,
@@ -259,5 +314,6 @@ export {
   deleteSingleProperties,
   getAgentProperties,
   getBuyProperties,
-  getRentProperties
+  getRentProperties,
+  getSearchProperties,
 };
