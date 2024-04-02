@@ -1,23 +1,32 @@
-import { updateSession } from "./app/utils/supabase/middleware";
+import { NextResponse } from "next/server";
 
-async function middleware(request) {
-  return await updateSession(request);
+// This function can be marked `async` if using `await` inside
+export function middleware(request) {
+  const access_token = request.cookies.get("access_token")?.value;
+
+  const loggedUserRestrictedPaths =
+    request.nextUrl.pathname === "/agent-login" ||
+    request.nextUrl.pathname === "/agent-register";
+
+  if (loggedUserRestrictedPaths) {
+    if (access_token) {
+      return NextResponse.redirect(new URL("/agent-dashboard", request.url));
+    }
+  } else {
+    if (!access_token) {
+      return NextResponse.redirect(new URL("/agent-login", request.url));
+    }
+  }
 }
 
-const config = {
+// See "Matching Paths" below to learn more
+export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * Feel free to modify this pattern to include more paths.
-     */
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    "/agent-dashboard",
+    "/agent-login",
+    "/agent-register",
+    "/agent-dashboard/all-listings",
+    "/agent-dashboard/create-listing",
+    "/agent-dashboard/profile/:id",
   ],
-};
-
-module.exports = {
-  middleware,
-  config,
 };
