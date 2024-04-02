@@ -28,21 +28,26 @@ import RecommendedSearches from "../components/RecommendedSearches";
 import TopSearches from "../components/TopSearches";
 import axios from "axios";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
-function AllProperties() {
+function page() {
   const [properties, setProperties] = useState([]);
+  const searchParams = useSearchParams();
+  const neighbourhood = searchParams.get("neighbourhood");
+  const listingType = searchParams.get("listingType");
+  const city = searchParams.get("city");
+  const minPrice = searchParams.get("minPrice");
+  const maxPrice = searchParams.get("maxPrice");
 
-  useEffect(() => {
+  useEffect(() => {   
+    
     const fetchProperties = async () => {
-      const response = await axios.get(
-        "http://localhost:8000/api/properties/get-properties"
-      );
+      const response = await axios.get(`http://localhost:8000/api/properties/get-search-properties?listingType=${listingType}&city=${city}&neighbourhood=${neighbourhood}&minPrice=${minPrice}&maxPrice=${maxPrice}`);
 
       setProperties(response.data.data);
     };
     fetchProperties();
   }, []);
-
   return (
     <div className="py-10 flex flex-col gap-5">
       <form className="px-10 flex flex-col gap-4 lg:flex-row lg:justify-center lg:px-72">
@@ -129,21 +134,21 @@ function AllProperties() {
                 <Card key={property._id}>
                   <CardHeader>
                     <Link href={`/all-properties/${property._id}`}>
-                    <div className="group relative overflow-hidden rounded-lg mb-2 cursor-pointer">
-                      <Image
-                        src={property.propertyImages[0]}
-                        width={400}
-                        height={300}
-                        className="transition-transform duration-500 group-hover:scale-110"
-                        alt={property.title}
-                      />
-                      <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
-                    </div>
+                      <div className="group relative overflow-hidden rounded-lg mb-2 cursor-pointer">
+                        <Image
+                          src={property.propertyImages[0]}
+                          width={400}
+                          height={300}
+                          className="transition-transform duration-500 group-hover:scale-110"
+                          alt={property.title}
+                        />
+                        <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
+                      </div>
                     </Link>
                     <Link href={`/all-properties/${property._id}`}>
-                    <CardTitle className="md:text-lg lg:text-xl">
-                      {property.title}
-                    </CardTitle>
+                      <CardTitle className="md:text-lg lg:text-xl">
+                        {property.title}
+                      </CardTitle>
                     </Link>
                     <CardDescription className="flex items-center gap-1 md:text-[12px] lg:text-sm">
                       <MdLocationPin /> {property.address}
@@ -161,28 +166,19 @@ function AllProperties() {
                     </p>
                   </CardContent>
                   <div className="flex items-center justify-between px-4 mb-5">
-                  <Link className="w-2/5" href={`/all-properties/${property._id}`}>
-                    <Button className="w-full text-text hover:bg-secondary hover:text-white">
-                      Check
-                    </Button>
+                    <Link
+                      className="w-2/5"
+                      href={`/all-properties/${property._id}`}
+                    >
+                      <Button className="w-full text-text hover:bg-secondary hover:text-white">
+                        Check
+                      </Button>
                     </Link>
                     <p className="font-bold text-secondary">
                       $ {property.price}
                     </p>
                   </div>
-                  <div className="flex items-center justify-center mb-2">
-                    <Separator />
-                  </div>
-                  <CardFooter className="flex justify-between">
-                    <span className="flex items-center gap-2">
-                      <Avatar>
-                        <AvatarImage src={JSON.stringify(property.agent_details.avatar).replaceAll('"', '')} />
-                        <AvatarFallback>CN</AvatarFallback>
-                      </Avatar>
-                      <p>{JSON.stringify(property.agent_details.firstName).replaceAll('"', '') + " " + JSON.stringify(property.agent_details.lastName).replaceAll('"', '')}</p>
-                    </span>
-                    <p>1 years ago</p>
-                  </CardFooter>
+                  
                 </Card>
               );
             })}
@@ -207,6 +203,4 @@ function AllProperties() {
   );
 }
 
-export default AllProperties;
-
-
+export default page;

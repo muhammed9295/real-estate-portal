@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
@@ -16,7 +17,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MdLocationPin, MdKingBed } from "react-icons/md";
 import { FaShower, FaExpandArrowsAlt } from "react-icons/fa";
 import Image from "next/image";
@@ -24,83 +24,104 @@ import CommunityAttraction from "../components/CommunityAttraction";
 import Alert from "../components/Alert";
 import RecommendedSearches from "../components/RecommendedSearches";
 import TopSearches from "../components/TopSearches";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import Link from "next/link";
 
 const properties = [
-    {
-      id: 1,
-      title: "Journeys Coral Gables",
-      address: "3119 Twin Lakes Road, Montgomer",
-      bed: 5,
-      bath: 3,
-      area: 752,
-      img: "/property/property-1.png",
-    },
-    {
-      id: 2,
-      title: "Journeys Coral Gables",
-      address: "3119 Twin Lakes Road, Montgomer",
-      bed: 5,
-      bath: 3,
-      area: 752,
-      img: "/property/property-2.png",
-    },
-    {
-      id: 3,
-      title: "Journeys Coral Gables",
-      address: "3119 Twin Lakes Road, Montgomer",
-      bed: 5,
-      bath: 3,
-      area: 752,
-      img: "/property/property-3.png",
-    },
-    {
-      id: 4,
-      title: "Journeys Coral Gables",
-      address: "3119 Twin Lakes Road, Montgomer",
-      bed: 5,
-      bath: 3,
-      area: 752,
-      img: "/property/property-1.png",
-    },
-    {
-      id: 5,
-      title: "Journeys Coral Gables",
-      address: "3119 Twin Lakes Road, Montgomer",
-      bed: 5,
-      bath: 3,
-      area: 752,
-      img: "/property/property-3.png",
-    },
-    {
-      id: 6,
-      title: "Journeys Coral Gables",
-      address: "3119 Twin Lakes Road, Montgomer",
-      bed: 5,
-      bath: 3,
-      area: 752,
-      img: "/property/property-1.png",
-    },
-    {
-      id: 7,
-      title: "Journeys Coral Gables",
-      address: "3119 Twin Lakes Road, Montgomer",
-      bed: 5,
-      bath: 3,
-      area: 752,
-      img: "/property/property-2.png",
-    },
-    {
-      id: 8,
-      title: "Journeys Coral Gables",
-      address: "3119 Twin Lakes Road, Montgomer",
-      bed: 5,
-      bath: 3,
-      area: 752,
-      img: "/property/property-3.png",
-    },
-  ];
+  {
+    id: 1,
+    title: "Journeys Coral Gables",
+    address: "3119 Twin Lakes Road, Montgomer",
+    bed: 5,
+    bath: 3,
+    area: 752,
+    img: "/property/property-1.png",
+  },
+  {
+    id: 2,
+    title: "Journeys Coral Gables",
+    address: "3119 Twin Lakes Road, Montgomer",
+    bed: 5,
+    bath: 3,
+    area: 752,
+    img: "/property/property-2.png",
+  },
+  {
+    id: 3,
+    title: "Journeys Coral Gables",
+    address: "3119 Twin Lakes Road, Montgomer",
+    bed: 5,
+    bath: 3,
+    area: 752,
+    img: "/property/property-3.png",
+  },
+  {
+    id: 4,
+    title: "Journeys Coral Gables",
+    address: "3119 Twin Lakes Road, Montgomer",
+    bed: 5,
+    bath: 3,
+    area: 752,
+    img: "/property/property-1.png",
+  },
+  {
+    id: 5,
+    title: "Journeys Coral Gables",
+    address: "3119 Twin Lakes Road, Montgomer",
+    bed: 5,
+    bath: 3,
+    area: 752,
+    img: "/property/property-3.png",
+  },
+  {
+    id: 6,
+    title: "Journeys Coral Gables",
+    address: "3119 Twin Lakes Road, Montgomer",
+    bed: 5,
+    bath: 3,
+    area: 752,
+    img: "/property/property-1.png",
+  },
+  {
+    id: 7,
+    title: "Journeys Coral Gables",
+    address: "3119 Twin Lakes Road, Montgomer",
+    bed: 5,
+    bath: 3,
+    area: 752,
+    img: "/property/property-2.png",
+  },
+  {
+    id: 8,
+    title: "Journeys Coral Gables",
+    address: "3119 Twin Lakes Road, Montgomer",
+    bed: 5,
+    bath: 3,
+    area: 752,
+    img: "/property/property-3.png",
+  },
+];
 
 function page() {
+  const [buyProperties, setBuyProperties] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    const fetchBuyProperties = async () => {
+      const response = await axios.get(
+        "http://localhost:8000/api/properties/get-buy-properties"
+      );
+
+      setBuyProperties(response.data.data);
+    };
+    fetchBuyProperties();
+  }, []);
+
+  const truncateTitle = (title) => {
+    return title.length > 29 ? title.substring(0, 29) : title;
+  };
   return (
     <div className="py-10 flex flex-col gap-5">
       <form className="px-10 flex flex-col gap-4 lg:flex-row lg:justify-center lg:px-72">
@@ -163,7 +184,9 @@ function page() {
           <h2 className="text-2xl font-bold md:text-4xl">Buy Properties</h2>
 
           <span className="flex justify-between items-center">
-            <p className="text-sm lg:text-base">Total: 7 Properties</p>
+            <p className="text-sm lg:text-base">
+              Total: {buyProperties.length} Properties
+            </p>
             <span>
               <Select>
                 <SelectTrigger className="bg-white">
@@ -180,75 +203,70 @@ function page() {
 
           {/* Cards sections */}
           <div className="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
-            {properties.map((property) => (
-              <Card key={property.id}>
+            {buyProperties.map((property) => (
+              <Card key={property._id}>
                 <CardHeader>
-                  <div className="group relative overflow-hidden rounded-lg mb-2 cursor-pointer">
-                    <Image
-                      src={property.img}
-                      width={300}
-                      height={300}
-                      className="transition-transform duration-500 group-hover:scale-110"
-                      alt={property.title}
-                    />
-                    <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
-                  </div>
-                  <CardTitle className="md:text-lg lg:text-xl">
-                    {property.title}
-                  </CardTitle>
+                  <Link href={`/buy/${property._id}`}>
+                    <div className="group relative overflow-hidden rounded-lg mb-2 cursor-pointer">
+                      <Image
+                        src={property.propertyImages[0]}
+                        width={300}
+                        height={300}
+                        className="transition-transform duration-500 group-hover:scale-110"
+                        alt={property.title}
+                      />
+                      <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
+                    </div>
+                  </Link>
+                  <Link href={`/buy/${property._id}`}>
+                    <CardTitle className="md:text-lg lg:text-xl">
+                      { truncateTitle(property.title)}
+                    </CardTitle>
+                  </Link>
                   <CardDescription className="flex items-center gap-1 md:text-[12px] lg:text-sm">
                     <MdLocationPin /> {property.address}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="flex justify-between">
                   <p className="flex gap-2 items-center md:text-[12px] lg:text-sm">
-                    <MdKingBed /> Beds {property.bed}
+                    <MdKingBed /> Beds {property.bedrooms}
                   </p>
                   <p className="flex gap-2 items-center md:text-[12px] lg:text-sm">
-                    <FaShower /> Bath {property.bath}
+                    <FaShower /> Bath {property.bathrooms}
                   </p>
                   <p className="flex gap-2 items-center md:text-[12px] lg:text-sm">
                     <FaExpandArrowsAlt /> SqFt {property.area}
                   </p>
                 </CardContent>
                 <div className="flex items-center justify-between px-4 mb-5">
-                  <Button className="w-2/5 text-text hover:bg-secondary hover:text-white">Check</Button>
-                  <p className="font-bold text-secondary">$ 49,000</p>
+                  <Link className="w-2/5" href={`/buy/${property._id}`}>
+                    <Button className="w-full text-text hover:bg-secondary hover:text-white">
+                      Check
+                    </Button>
+                  </Link>
+                  <p className="font-bold text-secondary">$ {property.price}</p>
                 </div>
-                <div className="flex items-center justify-center mb-2">
-                  <Separator />
-                </div>
-                <CardFooter className="flex justify-between">
-                  <span className="flex items-center gap-2">
-                    <Avatar>
-                      <AvatarImage src="https://github.com/shadcn.png" />
-                      <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
-                    <p>Mdshk</p>
-                  </span>
-                  <p>1 years ago</p>
-                </CardFooter>
               </Card>
             ))}
           </div>
           {/* Cards sections */}
         </div>
         {/* Property listing section */}
-        
+
         {/* Side bar */}
         <div className="hidden lg:flex lg:w-1/5 flex-col gap-5 items-center p-8 border-l-2 border-gray-100 h-[90%]">
-            <CommunityAttraction />
-            <Alert />
-            <RecommendedSearches />
-            <TopSearches />
-            <div className="mt-5">
-            <Image src="/ad-poster.jpg" width={500} height={500} alt="ads"/>
-            </div>
+          <CommunityAttraction />
+          <Alert />
+          <RecommendedSearches />
+          <TopSearches />
+          <div className="mt-5">
+            <Image src="/ad-poster.jpg" width={500} height={500} alt="ads" />
+          </div>
         </div>
         {/* Side bar */}
       </div>
     </div>
-  )
+  );
 }
 
-export default page
+export default page;
