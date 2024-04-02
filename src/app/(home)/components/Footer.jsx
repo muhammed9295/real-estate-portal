@@ -6,6 +6,7 @@ import { FaPhoneVolume, FaXTwitter } from "react-icons/fa6";
 import { FiMail } from "react-icons/fi";
 import { IoMdArrowDropright } from "react-icons/io";
 import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
+import Link from "next/link";
 
 function Footer() {
   return (
@@ -57,24 +58,31 @@ function Footer() {
         <div className="flex flex-col gap-3 text-white">
           <h2 className="text-lg font-bold">Quick Links</h2>
           <ul className="flex flex-col gap-2">
+            <Link href="/buy">
             <li className="flex gap-1 items-center font-semibold hover:text-primary cursor-pointer">
               <IoMdArrowDropright className="text-primary" /> Property For Sale
             </li>
+            </Link>
+            <Link href="/rent">
             <li className="flex gap-1 items-center font-semibold hover:text-primary cursor-pointer">
               <IoMdArrowDropright className="text-primary"/> Property For Rent
             </li>
+            </Link>
+            <Link href="/about-us">
             <li className="flex gap-1 items-center font-semibold hover:text-primary cursor-pointer">
               <IoMdArrowDropright className="text-primary" /> About Us
             </li>
+            </Link>
+            <Link href="/agent-dashboard">
             <li className="flex gap-1 items-center font-semibold hover:text-primary cursor-pointer">
               <IoMdArrowDropright className="text-primary" /> Agents
             </li>
+            </Link>
+            <Link href="/career">
             <li className="flex gap-1 items-center font-semibold hover:text-primary cursor-pointer">
               <IoMdArrowDropright className="text-primary" /> Careers
             </li>
-            <li className="flex gap-1 items-center font-semibold hover:text-primary cursor-pointer">
-              <IoMdArrowDropright className="text-primary" /> Contact Us
-            </li>
+            </Link>
           </ul>
         </div>
 

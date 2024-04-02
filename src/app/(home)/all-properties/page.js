@@ -45,59 +45,6 @@ function AllProperties() {
 
   return (
     <div className="py-10 flex flex-col gap-5">
-      <form className="px-10 flex flex-col gap-4 lg:flex-row lg:justify-center lg:px-72">
-        <div className="flex gap-5 lg:w-2/5">
-          <Input className="bg-white" placeholder="Location" />
-          <Button className="text-text hover:bg-secondary hover:text-white lg:hidden">
-            Find
-          </Button>
-        </div>
-        <div className="flex gap-2 lg:w-3/5 lg:gap-5">
-          {/* Property Types */}
-          <Select>
-            <SelectTrigger className="bg-white">
-              <SelectValue placeholder="Property Type" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="light">Light</SelectItem>
-              <SelectItem value="dark">Dark</SelectItem>
-              <SelectItem value="system">System</SelectItem>
-            </SelectContent>
-          </Select>
-          {/* Property Types */}
-
-          {/* Beds Type */}
-          <Select>
-            <SelectTrigger className="bg-white">
-              <SelectValue placeholder="Beds" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="light">Light</SelectItem>
-              <SelectItem value="dark">Dark</SelectItem>
-              <SelectItem value="system">System</SelectItem>
-            </SelectContent>
-          </Select>
-          {/* Beds Type */}
-
-          {/* Price Range */}
-          <Select>
-            <SelectTrigger className="bg-white">
-              <SelectValue placeholder="Price" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="light">Light</SelectItem>
-              <SelectItem value="dark">Dark</SelectItem>
-              <SelectItem value="system">System</SelectItem>
-            </SelectContent>
-          </Select>
-          {/* Price Range */}
-
-          <Button className="hidden lg:flex w-[500px] text-text font-bold text-base hover:bg-secondary hover:text-white">
-            Find
-          </Button>
-        </div>
-      </form>
-      <Separator />
 
       <div className="flex  w-full lg:px-20 lg:py-5">
         {/* Property listing section */}
@@ -181,7 +128,6 @@ function AllProperties() {
                       </Avatar>
                       <p>{JSON.stringify(property.agent_details.firstName).replaceAll('"', '') + " " + JSON.stringify(property.agent_details.lastName).replaceAll('"', '')}</p>
                     </span>
-                    <p>1 years ago</p>
                   </CardFooter>
                 </Card>
               );

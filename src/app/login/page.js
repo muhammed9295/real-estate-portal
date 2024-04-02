@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast, Toaster } from "sonner";
+import Link from "next/link";
 
 function page() {
   const [email, setEmail] = useState("");
@@ -39,38 +40,41 @@ function page() {
   };
 
   return (
-    <div className="w-full flex bg-white">
-      <div className="w-1/2 h-dvh bg-[url(/login-image.jpg)] bg-cover bg-center bg-no-repeat"></div>
-      <div className="w-1/2 flex flex-col justify-center items-center">
+    <div className="w-full grid grid-cols-12 bg-white">
+      <div className="hidden lg:grid lg:col-span-6 h-dvh bg-[url(/login-image.jpg)] bg-cover bg-center bg-no-repeat"></div>
+      <div className="col-span-12 lg:col-span-6">
+        <div className="flex justify-center h-dvh items-center p-10">
         <form
           onSubmit={handleSubmit}
-          className="w-1/2 p-20 border flex flex-col gap-8 items-center rounded-md"
+          className="w-full sm:w-1/2 p-10 sm:p-20 border flex flex-col gap-8 items-center rounded-md"
         >
           <h2 className="text-3xl font-bold">Login</h2>
           <span className="w-full flex flex-col gap-2">
             <Label className="font-bold text-base">Email</Label>
-            <Input type="text" onChange={(e) => setEmail(e.target.value)} />
+            <Input type="text" className="h-11" onChange={(e) => setEmail(e.target.value)} />
           </span>
 
           <span className="w-full flex flex-col gap-2">
             <Label className="font-bold text-base">Password</Label>
             <Input
               type="password"
+              className="h-11"
               onChange={(e) => setPassword(e.target.value)}
             />
           </span>
 
           <Button
             type="submit"
-            className="w-32 text-text text-lg font-semibold hover:bg-secondary hover:text-white"
+            className="w-32 text-white text-lg font-semibold hover:bg-secondary hover:text-white"
           >
             Login
           </Button>
           <Toaster />
           <p className="text-sm">
-            If you are not a user? <em>Register</em>
+            If you are not a user? <Link href="/register"><em className="font-bold hover:text-secondary">Register</em></Link>
           </p>
         </form>
+        </div>
       </div>
     </div>
   );

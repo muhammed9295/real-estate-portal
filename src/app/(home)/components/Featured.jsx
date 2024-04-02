@@ -1,3 +1,5 @@
+"use client";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,88 +14,105 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MdLocationPin, MdKingBed } from "react-icons/md";
 import { FaShower, FaExpandArrowsAlt } from "react-icons/fa";
 import Image from "next/image";
+import axios from "axios";
+import Link from "next/link";
 
-const properties = [
-  {
-    id: 1,
-    title: "Journeys Coral Gables",
-    address: "3119 Twin Lakes Road, Montgomer",
-    bed: 5,
-    bath: 3,
-    area: 752,
-    img: "/property/property-1.png",
-  },
-  {
-    id: 2,
-    title: "Journeys Coral Gables",
-    address: "3119 Twin Lakes Road, Montgomer",
-    bed: 5,
-    bath: 3,
-    area: 752,
-    img: "/property/property-2.png",
-  },
-  {
-    id: 3,
-    title: "Journeys Coral Gables",
-    address: "3119 Twin Lakes Road, Montgomer",
-    bed: 5,
-    bath: 3,
-    area: 752,
-    img: "/property/property-3.png",
-  },
-  {
-    id: 4,
-    title: "Journeys Coral Gables",
-    address: "3119 Twin Lakes Road, Montgomer",
-    bed: 5,
-    bath: 3,
-    area: 752,
-    img: "/property/property-1.png",
-  },
-  {
-    id: 5,
-    title: "Journeys Coral Gables",
-    address: "3119 Twin Lakes Road, Montgomer",
-    bed: 5,
-    bath: 3,
-    area: 752,
-    img: "/property/property-3.png",
-  },
-  {
-    id: 6,
-    title: "Journeys Coral Gables",
-    address: "3119 Twin Lakes Road, Montgomer",
-    bed: 5,
-    bath: 3,
-    area: 752,
-    img: "/property/property-1.png",
-  },
-  {
-    id: 7,
-    title: "Journeys Coral Gables",
-    address: "3119 Twin Lakes Road, Montgomer",
-    bed: 5,
-    bath: 3,
-    area: 752,
-    img: "/property/property-2.png",
-  },
-  {
-    id: 8,
-    title: "Journeys Coral Gables",
-    address: "3119 Twin Lakes Road, Montgomer",
-    bed: 5,
-    bath: 3,
-    area: 752,
-    img: "/property/property-3.png",
-  },
-];
+// const properties = [
+//   {
+//     id: 1,
+//     title: "Journeys Coral Gables",
+//     address: "3119 Twin Lakes Road, Montgomer",
+//     bed: 5,
+//     bath: 3,
+//     area: 752,
+//     img: "/property/property-1.png",
+//   },
+//   {
+//     id: 2,
+//     title: "Journeys Coral Gables",
+//     address: "3119 Twin Lakes Road, Montgomer",
+//     bed: 5,
+//     bath: 3,
+//     area: 752,
+//     img: "/property/property-2.png",
+//   },
+//   {
+//     id: 3,
+//     title: "Journeys Coral Gables",
+//     address: "3119 Twin Lakes Road, Montgomer",
+//     bed: 5,
+//     bath: 3,
+//     area: 752,
+//     img: "/property/property-3.png",
+//   },
+//   {
+//     id: 4,
+//     title: "Journeys Coral Gables",
+//     address: "3119 Twin Lakes Road, Montgomer",
+//     bed: 5,
+//     bath: 3,
+//     area: 752,
+//     img: "/property/property-1.png",
+//   },
+//   {
+//     id: 5,
+//     title: "Journeys Coral Gables",
+//     address: "3119 Twin Lakes Road, Montgomer",
+//     bed: 5,
+//     bath: 3,
+//     area: 752,
+//     img: "/property/property-3.png",
+//   },
+//   {
+//     id: 6,
+//     title: "Journeys Coral Gables",
+//     address: "3119 Twin Lakes Road, Montgomer",
+//     bed: 5,
+//     bath: 3,
+//     area: 752,
+//     img: "/property/property-1.png",
+//   },
+//   {
+//     id: 7,
+//     title: "Journeys Coral Gables",
+//     address: "3119 Twin Lakes Road, Montgomer",
+//     bed: 5,
+//     bath: 3,
+//     area: 752,
+//     img: "/property/property-2.png",
+//   },
+//   {
+//     id: 8,
+//     title: "Journeys Coral Gables",
+//     address: "3119 Twin Lakes Road, Montgomer",
+//     bed: 5,
+//     bath: 3,
+//     area: 752,
+//     img: "/property/property-3.png",
+//   },
+// ];
 
 function Featured() {
+  const [properties, setProperties] = useState([]);
+
+  useEffect(() => {
+    const fetchProperties = async () => {
+      const response = await axios.get(
+        "http://localhost:8000/api/properties/get-properties"
+      );
+
+      setProperties(response.data.data);
+    };
+    fetchProperties();
+  }, []);
+
   return (
     <div className="p-10 md:p-20 flex flex-col gap-4">
       {/* Title - text */}
       <div className="flex flex-col items-center justify-center gap-3">
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-black">Featured Properties</h2>
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-black">
+          Featured Properties
+        </h2>
         <p className="text-sm text-center md:text-base">
           Explore all the different types of properties so you can choose the
           best option for you.
@@ -125,48 +144,76 @@ function Featured() {
         {/* Filter buttons */}
 
         {/* Cards sections */}
-        <div className="mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
+        <div className="mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7 lg:px-36">
           {properties.map((property) => (
-            <Card key={property.id}>
+            <Card key={property._id}>
               <CardHeader>
-                <div className="group relative overflow-hidden rounded-lg mb-2 cursor-pointer">
-                  <Image
-                    src={property.img}
-                    width={300}
-                    height={300}
-                    className="transition-transform duration-500 group-hover:scale-110"
-                    alt={property.title}
-                  />
-                  <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
-                </div>
-                <CardTitle className="md:text-lg lg:text-xl">{property.title}</CardTitle>
+                <Link href={`/all-properties/${property._id}`}>
+                  <div className="group relative overflow-hidden rounded-lg mb-2 cursor-pointer">
+                    <Image
+                      src={property.propertyImages[0]}
+                      width={400}
+                      height={300}
+                      className="transition-transform duration-500 group-hover:scale-110"
+                      alt={property.title}
+                    />
+                    <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
+                  </div>
+                </Link>
+                <Link href={`/all-properties/${property._id}`}>
+                  <CardTitle className="md:text-lg lg:text-xl">
+                    {property.title}
+                  </CardTitle>
+                </Link>
                 <CardDescription className="flex items-center gap-1 md:text-[12px] lg:text-sm">
                   <MdLocationPin /> {property.address}
                 </CardDescription>
               </CardHeader>
               <CardContent className="flex justify-between">
                 <p className="flex gap-2 items-center md:text-[12px] lg:text-sm">
-                  <MdKingBed /> Beds {property.bed}
+                  <MdKingBed /> Beds {property.bedrooms}
                 </p>
                 <p className="flex gap-2 items-center md:text-[12px] lg:text-sm">
-                  <FaShower /> Bath {property.bath}
+                  <FaShower /> Bath {property.bathrooms}
                 </p>
                 <p className="flex gap-2 items-center md:text-[12px] lg:text-sm">
-                  <FaExpandArrowsAlt /> SqFt {property.area}
+                  <FaExpandArrowsAlt /> SqFt 1000
                 </p>
               </CardContent>
+              <div className="flex items-center justify-between px-4 mb-5">
+                <Link
+                  className="w-2/5"
+                  href={`/all-properties/${property._id}`}
+                >
+                  <Button className="w-full text-text hover:bg-secondary hover:text-white">
+                    Check
+                  </Button>
+                </Link>
+                <p className="font-bold text-secondary">$ {property.price}</p>
+              </div>
               <div className="flex items-center justify-center mb-2">
                 <Separator />
               </div>
               <CardFooter className="flex justify-between">
                 <span className="flex items-center gap-2">
                   <Avatar>
-                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarImage
+                      src={JSON.stringify(
+                        property.agent_details.avatar
+                      ).replaceAll('"', "")}
+                    />
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
-                  <p>Mdshk</p>
+                  <p>
+                    {JSON.stringify(
+                      property.agent_details.firstName
+                    ).replaceAll('"', "") +
+                      " " +
+                      JSON.stringify(
+                        property.agent_details.lastName
+                      ).replaceAll('"', "")}
+                  </p>
                 </span>
-                <p>1 years ago</p>
               </CardFooter>
             </Card>
           ))}

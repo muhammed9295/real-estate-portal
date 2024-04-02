@@ -94,14 +94,14 @@ function Navbar() {
       </Link>
 
       {/* Normal Menu */}
-      <div className="hidden md:flex md:w-5/6 lg:w-1/2">
+      <div className="hidden lg:flex lg:w-1/2">
         <ul className="flex w-full md:gap-5 md:justify-end">
           <Link href="/all-properties">
             <li
               className={
                 pathname === "/all-properties"
-                  ? "lg:text-[18px] md:text-sm font-semibold p-1 lg:p-2 rounded-md bg-secondary text-white"
-                  : "lg:text-[18px] md:text-sm font-semibold p-1 lg:p-2 rounded-md hover:bg-secondary hover:text-white"
+                  ? "lg:text-[18px] md:text-sm font-semibold p-1 lg:p-2 rounded-md text-secondary"
+                  : "lg:text-[18px] md:text-sm font-semibold p-1 lg:p-2 rounded-md  hover:text-secondary"
               }
             >
               All Properties
@@ -112,8 +112,8 @@ function Navbar() {
             <li
               className={
                 pathname === "/rent"
-                  ? "lg:text-[18px] md:text-sm font-semibold p-1 lg:p-2 rounded-md bg-secondary text-white"
-                  : "lg:text-[18px] md:text-sm font-semibold p-1 lg:p-2 rounded-md hover:bg-secondary hover:text-white"
+                  ? "lg:text-[18px] md:text-sm font-semibold p-1 lg:p-2 rounded-md text-secondary"
+                  : "lg:text-[18px] md:text-sm font-semibold p-1 lg:p-2 rounded-md hover:text-secondary"
               }
             >
               Rent
@@ -124,8 +124,8 @@ function Navbar() {
             <li
               className={
                 pathname === "/buy"
-                  ? "lg:text-[18px] md:text-sm font-semibold p-1 lg:p-2 rounded-md bg-secondary text-white"
-                  : "lg:text-[18px] md:text-sm font-semibold p-1 lg:p-2 rounded-md hover:bg-secondary hover:text-white"
+                  ? "lg:text-[18px] md:text-sm font-semibold p-1 lg:p-2 rounded-md text-secondary"
+                  : "lg:text-[18px] md:text-sm font-semibold p-1 lg:p-2 rounded-md hover:text-secondary"
               }
             >
               Buy
@@ -136,8 +136,8 @@ function Navbar() {
             <li
               className={
                 pathname === "/agent-dashboard"
-                  ? "lg:text-[18px] md:text-sm font-semibold p-1 lg:p-2 rounded-md bg-secondary text-white"
-                  : "lg:text-[18px] md:text-sm font-semibold p-1 lg:p-2 rounded-md hover:bg-secondary hover:text-white"
+                  ? "lg:text-[18px] md:text-sm font-semibold p-1 lg:p-2 rounded-md text-secondary"
+                  : "lg:text-[18px] md:text-sm font-semibold p-1 lg:p-2 rounded-md hover:text-secondary"
               }
             >
               Agent Portal
@@ -148,8 +148,8 @@ function Navbar() {
             <li
               className={
                 pathname === "/about-us"
-                  ? "lg:text-[18px] md:text-sm font-semibold p-1 lg:p-2 rounded-md bg-secondary text-white"
-                  : "lg:text-[18px] md:text-sm font-semibold p-1 lg:p-2 rounded-md hover:bg-secondary hover:text-white"
+                  ? "lg:text-[18px] md:text-sm font-semibold p-1 lg:p-2 rounded-md text-secondary"
+                  : "lg:text-[18px] md:text-sm font-semibold p-1 lg:p-2 rounded-md hover:text-secondary"
               }
             >
               About us
@@ -160,8 +160,8 @@ function Navbar() {
             <li
               className={
                 pathname === "/career"
-                  ? "lg:text-[18px] md:text-sm font-semibold p-1 lg:p-2 rounded-md bg-secondary text-white"
-                  : "lg:text-[18px] md:text-sm font-semibold p-1 lg:p-2 rounded-md hover:bg-secondary hover:text-white"
+                  ? "lg:text-[18px] md:text-sm font-semibold p-1 lg:p-2 rounded-md text-secondary"
+                  : "lg:text-[18px] md:text-sm font-semibold p-1 lg:p-2 rounded-md hover:text-secondary"
               }
             >
               Career
@@ -209,7 +209,7 @@ function Navbar() {
             </DropdownMenu>
           ) : (
             <Link href="/login">
-              <Button className="text-text text-lg font-normal hover:bg-secondary hover:text-white">
+              <Button  className="text-white text-lg font-normal hover:bg-secondary hover:text-white">
                 Login
               </Button>
             </Link>
@@ -220,7 +220,7 @@ function Navbar() {
       {/* Normal Menu */}
 
       {/* Responsive Menu */}
-      <div className="md:hidden">
+      <div className="lg:hidden">
         {!open ? (
           <MdOutlineMenu
             onClick={() => setOpen((prev) => !prev)}
@@ -268,9 +268,11 @@ function Navbar() {
             <Separator className="bg-[#ac9dfa]" />
 
             <div className="w-full px-9">
-              <button className="bg-primary px-10 py-3 text-base text-white font-bold rounded-lg w-full flex gap-3 justify-center items-center hover:bg-white hover:text-secondary">
-                <FaHouse className="text-base " /> Sell Property
-              </button>
+            <Link href="/login">
+              <Button className="bg-primary px-10 py-3 h-14 text-base text-white font-bold rounded-lg w-full flex gap-3 justify-center items-center hover:bg-white hover:text-secondary">
+                <FaHouse className="text-base " /> Login
+              </Button>
+              </Link>
             </div>
 
             <Separator className="bg-[#ac9dfa]" />
