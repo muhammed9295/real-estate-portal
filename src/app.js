@@ -4,13 +4,15 @@ import cookieParser from "cookie-parser";
 
 const app = express();
 
-app.use(
-  cors({
-    origin: "https://real-estate-portal-vercel-deploy.vercel.app",
-    credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+// app.use(
+//   cors({
+//     origin: "https://real-estate-portal-vercel-deploy.vercel.app",
+//     credentials: true,
+//     allowedHeaders: ["Content-Type", "Authorization"],
+//   })
+// );
+
+app.use(cors());
 
 // Express configuration
 app.use(express.json({ limt: "20kb" }));
