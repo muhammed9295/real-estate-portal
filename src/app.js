@@ -6,7 +6,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: *,
+    origin: "https://real-estate-portal-vercel-deploy.vercel.app/",
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
   })
