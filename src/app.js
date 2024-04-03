@@ -7,7 +7,6 @@ const app = express();
 app.use(
   cors({
     origin: "https://real-estate-portal-vercel-deploy.vercel.app",
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
   })
